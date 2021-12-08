@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Heading from "./Heading";
+import { Counter } from "./Counter";
+
+export function label(name: string) {
+	return `Hello ${name.toUpperCase()}`;
+}
+
+const initialState = { count: 0 };
+export type CounterState = Readonly<typeof initialState>;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [state, setState] = useState(initialState);
+
+	function increment(isShift: boolean) {
+		const inc: number = isShift ? 10 : 1;
+		setState((prevState) => ({ count: prevState.count + inc }));
+	}
+	return (
+		<div className="App">
+			<Heading />
+			<Heading name="World" />
+			<Counter onCounterIncrease={increment} count={state.count} />
+		</div>
+	);
 }
 
 export default App;
